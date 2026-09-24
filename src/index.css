@@ -111,22 +111,19 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* ============================== HERO ============================== */
 .hero { min-height: 760px; display: grid; place-items: center; position: relative; overflow: hidden; padding: 90px 0; perspective: 1200px; }
-.hero-copy { position: relative; z-index: 2; max-width: 850px; text-align: center; transition: transform 0.2s ease-out; will-change: transform; }
+.hero-copy { position: relative; z-index: 2; max-width: 920px; text-align: center; transition: transform 0.2s ease-out; will-change: transform; }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid rgba(168, 85, 247, 0.35); background: rgba(168, 85, 247, 0.08); border-radius: 999px; color: #d9b5ff; font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; }
 .hero h1 {
-  display: inline-block;   /* ← ADD THIS */
-  font: 400 clamp(4rem, 11vw, 9.5rem)/0.82 Anton, Impact, sans-serif;
-  letter-spacing: 2px;
-  margin: 26px 0;
-  padding-block: 0.12em;   /* ← ADD THIS TOO (see the note below) */
-  background: linear-gradient(110deg, #fff 15%, #b76cff 43%, #5ce9ff 72%, #fff);
-  background-size: 220%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shine 6s linear infinite;
+  font: 400 clamp(4rem, 11vw, 9.5rem)/0.82 Anton, Impact, sans-serif; letter-spacing: 2px; margin: 26px 0;
+  background: linear-gradient(110deg, #fff 15%, #b76cff 43%, #5ce9ff 72%, #fff); background-size: 220%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 6s linear infinite;
+  /* The gradient is the paint, so the box must hug the text or the last letters
+     lose their colour. inline-block = shrink-to-fit; padding-block keeps
+     descenders (g/y/p) inside the paint box at line-height 0.82. */
+  display: inline-block;
+  padding-block: 0.12em;
 }
-.hero p { font-size: clamp(16px, 2vw, 20px); color: #c4c7d3; max-width: 680px; margin: 0 auto 28px; }
+.hero p { font-size: clamp(16px, 2vw, 20px); color: #c4c7d3; max-width: min(680px, 100%); margin: 0 auto 28px; }
 .actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
 .orb { position: absolute; border-radius: 50%; filter: blur(2px); opacity: 0.55; animation: float 9s ease-in-out infinite; }
 .o1 { width: 420px; height: 420px; background: radial-gradient(circle, rgba(168, 85, 247, 0.38), transparent 65%); left: -140px; top: 80px; }
@@ -449,4 +446,19 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 svg.bc-svg { max-width: 100%; }
 @media print {
   svg.bc-svg rect { fill: #111 !important; }
+}
+/* ============================================================
+   MOBILE HERO — alignment pass
+   Appended after the max-width:840px block on purpose: these are
+   equal-specificity rules, so coming later in the file they win.
+   ============================================================ */
+@media (max-width: 840px) {
+  .hero h1 { font-size: clamp(2.1rem, 12vw, 5.5rem); letter-spacing: 1px; }
+  .hero p { max-width: min(680px, 100%); }
+  .hero .actions { flex-direction: column; width: 100%; }
+  .hero .actions .btn { width: 100%; flex: 0 0 auto; }
+  .stage-meta { flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+  .stage-meta > span { white-space: nowrap; }
+  .stage-title { font-size: 30px; }
+  .hero { min-height: auto; padding: 52px 0 58px; }
 }
